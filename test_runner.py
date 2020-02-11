@@ -1,7 +1,6 @@
 import sys
 import subprocess
 import glob
-import json
 from datetime import datetime
 import xml.etree.ElementTree as ET
 
@@ -21,12 +20,10 @@ if __name__ == "__main__":
     # get all test exe's
     test_files = glob.glob("{}test*.exe".format(exe_directory))
 
-    test_results = {}
     now = datetime.now()
     timestamp = "{year}{month:02d}{day:02d}_{hour:02d}{min:02d}{sec:02d}".format(
         year=now.year, month=now.month, day=now.day, hour=now.hour, min=now.minute, sec=now.second
     )
-    print(timestamp)
     xml_root = ET.Element("testsuites", attrib={"id":timestamp})
     for test in test_files:
         print("Running {}".format(test))
@@ -35,7 +32,6 @@ if __name__ == "__main__":
         results_name = test.replace(exe_directory, '')
         results_name = results_name.replace(".exe", '')
         xml_testsuite = ET.SubElement(xml_root, "testsuite", attrib={"id": results_name})
-        result_dicts = []
         
         num_pass = 0
         num_fail = 0
@@ -56,13 +52,6 @@ if __name__ == "__main__":
                     message = None
             except ValueError:
                 continue
-                # invalid line, not a test report
-            result_dicts.append({
-                "name": test_name,
-                "result": result,
-                "line_num": line_num,
-                "message": message
-            })
             xml_testcase = ET.SubElement(xml_testsuite, "testcase", attrib={"name": test_name})
             if result != "PASS":
                 if result == "IGNORE":
@@ -81,8 +70,6 @@ if __name__ == "__main__":
         xml_testsuite.set("disabled", str(num_skip))
         xml_testsuite.set("errors", str(num_err))
         xml_testsuite.set("failures", str(num_fail))
-        test_results[results_name] = result_dicts
     
     tree = ET.ElementTree(xml_root)
-    tree.write("results.xml")
-    print(json.dumps(test_results, indent=2))
+    tree.write("results.xml", xml_declaration=True, encoding="UTF-8")
