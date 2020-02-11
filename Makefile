@@ -13,7 +13,7 @@ DEST=build/
 main: $(SRC)
 	$(info MAKING $@ USING SOURCE FILES: $^)
 	gcc -o build/$@ $^ -I $(INCLUDE)
-test: $(TESTS) $(TEST_SRC)
+tests: $(TESTS) $(TEST_SRC)
 	$(info MAKING $@ USING SOURCE FILES: $^)
 	gcc -o $(DEST)test_add test/test_add.c $(TEST_SRC) -I $(INCLUDE) -I Unity/src/
 	gcc -o $(DEST)test_subtract test/test_subtract.c $(TEST_SRC) -I $(INCLUDE) -I Unity/src/

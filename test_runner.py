@@ -52,7 +52,8 @@ if __name__ == "__main__":
                     message = None
             except ValueError:
                 continue
-            xml_testcase = ET.SubElement(xml_testsuite, "testcase", attrib={"name": test_name})
+
+            xml_testcase = ET.SubElement(xml_testsuite, "testcase", attrib={"name": test_name, "classname": tested_file})
             if result != "PASS":
                 if result == "IGNORE":
                     ET.SubElement(xml_testcase, "skipped")
