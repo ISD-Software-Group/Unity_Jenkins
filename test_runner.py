@@ -18,7 +18,7 @@ if __name__ == "__main__":
         exe_directory = "build/"
 
     # get all test exe's
-    test_files = glob.glob("{}test*.exe".format(exe_directory))
+    test_files = glob.glob("{}test_*".format(exe_directory))
 
     now = datetime.now()
     timestamp = "{year}{month:02d}{day:02d}_{hour:02d}{min:02d}{sec:02d}".format(
