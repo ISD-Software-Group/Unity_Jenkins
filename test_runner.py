@@ -15,7 +15,7 @@ if __name__ == "__main__":
     if len(sys.argv) == 2:
         exe_directory = sys.argv[1]
     else:
-        exe_directory = "build/"
+        exe_directory = "build/test/"
 
     # get all test exe's
     test_files = glob.glob("{}test_*".format(exe_directory))
